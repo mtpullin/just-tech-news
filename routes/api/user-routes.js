@@ -49,7 +49,26 @@ router.post('/', (req,res) => {
         res.status(500).json(err)
     })
 });
-
+//login route
+router.post('/login', (req,res) =>{
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).then(dbUserData => {
+        if(!dbUserData){
+            res.status(400).json({message: 'no user with that email'})
+            return;
+        }
+        //verify user
+        const validPassword = dbUserData.checkPassword(req.body.password);
+        if(!validPassword) {
+            res.status(400).json({message: 'incorrect password!'});
+            return;
+        }
+        res.json({user: dbUserData, message: 'you are now logged in'})
+    })
+})
 //put /api/user/1
 router.put('/:id', (req,res) => {
     //if req.bpdy has exact value use user.body
