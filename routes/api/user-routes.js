@@ -5,7 +5,7 @@ const {User}= require('../../models');
 router.get( '/', (req,res) =>{
     //access user model and run findall method
     User.findAll({
-        attributes: {exclude: ['password']}
+       // attributes: {exclude: ['password']}
     })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -54,6 +54,7 @@ router.post('/', (req,res) => {
 router.put('/:id', (req,res) => {
     //if req.bpdy has exact value use user.body
     User.update(req.body, {
+        individualHooks: true,
         where: {
             id: req.params.id
         }
