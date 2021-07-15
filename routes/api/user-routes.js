@@ -93,10 +93,7 @@ router.put('/:id', (req,res) => {
 
 //delete /api/user/1
 router.delete('/:id', (req,res) => {
-    User.destroy({
-        where: {
-            id: req.params.id
-        }
+    User.destroy({where: {id: req.params.id}
     })
     .then(dbUserData => {
         if(!dbUserData){
